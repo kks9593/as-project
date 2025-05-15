@@ -1,0 +1,36 @@
+name: CI/CD for FastAPI + React
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📦 코드 다운로드
+        uses: actions/checkout@v2
+
+      - name: 🐍 Python 설치
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.10"
+
+      - name: 🧪 Python 의존성 설치
+        run: |
+          cd backend
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: 🌐 React 앱 빌드
+        run: |
+          cd frontend
+          npm install
+          npm run build
+
+      # 테스트용 placeholder (선택사항)
+      - name: ✅ API 테스트 또는 코드 린트
+        run: echo "테스트 생략 또는 추가 가능"
+
+      # 🚀 Docker로 푸시하려면 여기에 docker build & push 추가
